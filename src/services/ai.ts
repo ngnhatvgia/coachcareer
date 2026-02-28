@@ -1,6 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-export const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+export const ai = new GoogleGenAI({ apiKey });
 
 export const MODEL_NAME = "gemini-3.1-pro-preview";
 
