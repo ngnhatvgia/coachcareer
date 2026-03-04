@@ -3,19 +3,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 
 export default function App() {
   const targetUrl = "https://ai.studio/apps/e358ea7e-18ab-493d-a581-90520c172e45?fullscreenApplet=true";
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      window.location.replace(targetUrl);
-    }, 3000);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          window.location.replace(targetUrl);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    return () => clearTimeout(timer);
+    return () => clearInterval(interval);
   }, [targetUrl]);
 
   return (
@@ -63,9 +71,20 @@ export default function App() {
           <p className="text-amber-400 text-xl md:text-2xl font-bold leading-relaxed">
             ⚠️ Ứng dụng đã được cập nhật.
           </p>
-          <p className="text-gray-300 text-lg md:text-xl">
-            Bạn sẽ được chuyển sang phiên bản mới trong vài giây...
-          </p>
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-gray-300 text-lg md:text-xl">
+              Bạn sẽ được chuyển sang phiên bản mới trong {countdown} giây...
+            </p>
+            {/* Progress Bar */}
+            <div className="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-amber-500"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 5, ease: "linear" }}
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Call to Action Button / Link */}
