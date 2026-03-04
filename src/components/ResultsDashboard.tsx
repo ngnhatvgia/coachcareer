@@ -13,6 +13,10 @@ export const ResultsDashboard = () => {
   const { analysisResult, userProfile, setStep } = useApp();
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!analysisResult) return null;
 
   const handleCareerClick = (title: string) => {

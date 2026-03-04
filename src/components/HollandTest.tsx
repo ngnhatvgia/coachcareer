@@ -11,6 +11,10 @@ export const HollandTest = () => {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState<Record<number, number>>({});
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleScoreChange = (questionId: number, score: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: score }));
   };
@@ -44,19 +48,19 @@ export const HollandTest = () => {
     };
     updateUserProfile(updatedProfile);
     
-    // Move to loading state
-    setStep(3);
+    // Move to loading state immediately
+    setStep(4);
     setIsLoading(true);
 
     try {
       // Call AI
       const result = await generateCareerAdvice(updatedProfile);
       setAnalysisResult(result);
-      setStep(4); // Go to results
+      setStep(5); // Go to results
     } catch (error) {
       console.error("AI Error:", error);
       alert("Có lỗi xảy ra khi kết nối với AI. Vui lòng thử lại.");
-      setStep(2); // Go back to test if error
+      setStep(3); // Go back to test if error
     } finally {
       setIsLoading(false);
     }
